@@ -1,0 +1,82 @@
+classDiagram
+    class Cell {
+        +int x
+        +int y
+    }
+    class Snake {
+        -deque~Cell~ body_
+        -Direction direction_
+        -Direction pendingDirection_
+        +requestTurn(Direction) bool
+        +proposedHead() Cell
+        +advance(Cell, bool) void
+        +contains(Cell) bool
+    }
+    class Food {
+        -Cell position_
+        -bool present_
+        +generate(int, int, Snake, Snake, rng) bool
+        +position() Cell
+        +points() int
+    }
+    class Leaderboard {
+        -map~int,vector~ScoreRecord~~ byScore_
+        +add(ScoreRecord) void
+        +top10() vector~ScoreRecord~
+        +load(path) bool
+        +save(path) bool
+    }
+    class GameState {
+        <<abstract>>
+        +scene() Scene
+        +onEnter(Game) void
+        +onExit(Game) void
+        +update(Game) void
+        +render(callback) void
+    }
+    class MenuState
+    class PlayState
+    class GameOverState
+    GameState <|-- MenuState
+    GameState <|-- PlayState
+    GameState <|-- GameOverState
+    class Game {
+        -Snake snake1_
+        -Snake snake2_
+        -Food food_
+        -Leaderboard leaderboard_
+        -GameState* active_
+        +start(mode, difficulty) void
+        +turn(player, direction) bool
+        +tick() void
+        +saveSnapshot(path) bool
+        +loadSnapshot(path) bool
+        +renderScene(callback) void
+    }
+    class Widget {
+        -Game game_
+        -QTimer timer_
+        -SkinStrategy skin_
+        +paintEvent(event) void
+        +keyPressEvent(event) void
+    }
+    class SkinStrategy {
+        <<abstract>>
+        +snake(player) QColor
+        +food() QColor
+        +tile() QColor
+    }
+    class FreshSkin
+    class RetroSkin
+    class AuroraSkin
+    SkinStrategy <|-- FreshSkin
+    SkinStrategy <|-- RetroSkin
+    SkinStrategy <|-- AuroraSkin
+    Game *-- Snake
+    Game *-- Food
+    Game *-- Leaderboard
+    Game o-- GameState
+    Snake *-- Cell
+    Food *-- Cell
+    Widget *-- Game
+    Widget o-- SkinStrategy
