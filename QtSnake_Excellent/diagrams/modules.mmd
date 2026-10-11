@@ -1,0 +1,10 @@
+flowchart LR
+    A["Interaction module<br/>keyboard / buttons / combos"] -->|commands| B["Game core module<br/>Game + Snake + Food<br/>GameState + Leaderboard"]
+    C["Render module<br/>Widget paint + skin strategies"] -->|queries / callback| B
+    D["QTimer scheduler"] -->|tick| B
+    B -->|std::fstream| E[("Top10 / 3 save slots")]
+    B -.->|state changes| C
+    classDef ui fill:#eef7f6,stroke:#238c7f;
+    classDef domain fill:#edf0fa,stroke:#6679a9;
+    class A,C,D ui;
+    class B,E domain;

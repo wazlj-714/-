@@ -1,0 +1,7 @@
+Qt-free C++17 regression evidence
+Environment: Debian GNU/Linux 13; g++ 14.2.0
+Build options: -std=c++17 -O2 -Wall -Wextra -Wpedantic
+Command: bash tests/run_core_tests.sh
+Observed result: PASS: 1195 core assertions (Qt-free)
+Additional check: AddressSanitizer + UndefinedBehaviorSanitizer: PASS: 1195 core assertions
+Windows Qt Widgets GUI compilation and mouse interactions: not executed in this environment.
